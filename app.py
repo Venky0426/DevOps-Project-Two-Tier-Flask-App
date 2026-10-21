@@ -1,5 +1,6 @@
+
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -13,18 +14,27 @@ app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'default_db')
 # Initialize MySQL
 mysql = MySQL(app)
 
+
 def init_db():
     with app.app_context():
         cur = mysql.connection.cursor()
         cur.execute('''
-        CREATE TABLE IF NOT EXISTS messages (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            message TEXT
-        );
+            CREATE TABLE IF NOT EXISTS messages (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                message TEXT
+            );
         ''')
-        mysql.connection.commit()  
+        mysql.connection.commit()
         cur.close()
 
+
+# Health check endpoint for Docker
+@app.route('/health')
+def health():
+    return jsonify({'status': 'ok'}), 200
+
+
+# Home page: display messages stored in MySQL
 @app.route('/')
 def hello():
     cur = mysql.connection.cursor()
@@ -33,14 +43,25 @@ def hello():
     cur.close()
     return render_template('index.html', messages=messages)
 
+
+# Handle new message submissions
 @app.route('/submit', methods=['POST'])
 def submit():
     new_message = request.form.get('new_message')
+
+    if not new_message:
+        return jsonify({'error': 'Message cannot be empty'}), 400
+
     cur = mysql.connection.cursor()
-    cur.execute('INSERT INTO messages (message) VALUES (%s)', [new_message])
+    cur.execute(
+        'INSERT INTO messages (message) VALUES (%s)',
+        [new_message]
+    )
     mysql.connection.commit()
     cur.close()
+
     return jsonify({'message': new_message})
+
 
 if __name__ == '__main__':
     init_db()
