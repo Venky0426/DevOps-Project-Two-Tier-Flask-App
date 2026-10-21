@@ -1,230 +1,496 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prashant | Flask App 🚀</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    <meta name="theme-color" content="#0b1020">
+    <title>Venkey HM | Java Developer</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #121b30;
+            --text: #f1f5ff;
+            --muted: #a3afc7;
+            --cyan: #67e8f9;
+            --purple: #a78bfa;
+            --border: rgba(255,255,255,.11);
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            background: linear-gradient(160deg, #0C0D16, #1A1C2B);
-            color: #ffffff;
+            font-family: Inter, system-ui, Arial, sans-serif;
+            background: radial-gradient(ellipse at top left, #17274a, transparent 45%), var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .container { width: min(1080px, 90%); margin: auto; }
+
+        nav {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            gap: 16px;
+            padding: 23px 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Flex container for profile + content */
-        .container {
-            display: flex;
-            flex-direction: row;
-            max-width: 1050px;
-            width: 100%;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+        .logo { font-size: 1.3rem; font-weight: 800; }
+        .logo span, .accent { color: var(--cyan); }
+
+        .nav-links { display: flex; gap: 22px; color: var(--muted); font-size: .9rem; }
+        .nav-links a:hover { color: var(--cyan); }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 85px 0 65px;
+        }
+
+        .badge {
+            display: inline-block;
+            color: var(--cyan);
+            background: rgba(103,232,249,.08);
+            border: 1px solid rgba(103,232,249,.25);
+            padding: 6px 13px;
+            border-radius: 30px;
+            font-size: .82rem;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-size: clamp(2.6rem, 6vw, 4.5rem);
+            line-height: 1.12;
+            letter-spacing: -2px;
+            margin-bottom: 22px;
+        }
+
+        h1 span {
+            background: linear-gradient(100deg, var(--cyan), var(--purple));
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+
+        .intro { color: var(--muted); max-width: 600px; font-size: 1.04rem; }
+
+        .buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 18px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            font-weight: 700;
+            font-size: .92rem;
+        }
+
+        .btn-primary { background: var(--cyan); color: #07111d; border-color: var(--cyan); }
+        .btn:hover { opacity: .85; }
+
+        .profile-card, .card, .message-panel {
+            background: rgba(18,27,48,.88);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .profile-card { padding: 28px; }
+
+        .avatar {
+            width: 74px;
+            height: 74px;
+            display: grid;
+            place-items: center;
             border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            background: linear-gradient(135deg, #164e63, #6d28d9);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 18px;
         }
 
-        /* Left side: profile photo */
-        .profile-photo {
-            flex: 0 0 200px;
-            margin-right: 30px;
+        .profile-card h2 { font-size: 1.35rem; }
+        .profile-card > p { color: var(--muted); font-size: .92rem; }
+
+        .profile-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: .88rem;
         }
 
-        .profile-photo img {
-            width: 100%;
-            border-radius: 50%;
-            border: 3px solid #5599FF;
-            box-shadow: 0 4px 15px rgba(85, 153, 255, 0.5);
+        .profile-line:last-child { border-bottom: 0; }
+        .profile-line span { color: var(--muted); }
+
+        section { padding: 42px 0; }
+
+        .section-heading { margin-bottom: 24px; }
+        .section-heading h2 { font-size: 1.8rem; letter-spacing: -.6px; }
+        .section-heading p { color: var(--muted); margin-top: 5px; }
+
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+
+        .card { transition: transform .2s, border-color .2s; }
+        .card:hover { transform: translateY(-3px); border-color: rgba(103,232,249,.4); }
+
+        .icon { font-size: 1.7rem; margin-bottom: 12px; }
+        .card h3 { margin-bottom: 8px; font-size: 1.06rem; }
+        .card p { color: var(--muted); font-size: .91rem; }
+
+        .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+
+        .tag {
+            color: var(--cyan);
+            background: rgba(103,232,249,.08);
+            border-radius: 6px;
+            padding: 4px 9px;
+            font-size: .76rem;
         }
 
-        /* Right side: content */
-        .content {
-            flex: 1;
+        .project-card { margin-bottom: 15px; }
+        .project-card .tag { margin-top: 2px; }
+
+        .message-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
         }
 
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #5599FF;
-            margin-bottom: 8px;
-        }
+        .message-panel h3 { margin-bottom: 7px; }
+        .message-panel > p { color: var(--muted); font-size: .91rem; margin-bottom: 17px; }
 
-        .header p {
-            font-size: 1rem;
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-
-        .about {
-            margin-bottom: 20px;
-            padding: 10px 15px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .about h2 {
-            font-size: 1.3rem;
-            color: #5599FF;
-            margin-bottom: 8px;
-        }
-
-        .about p {
-            font-size: 0.95rem;
-            color: #ddd;
-            line-height: 1.5;
-        }
-
-        .messages {
-            margin-bottom: 15px;
-            padding: 12px;
-            background: rgba(85, 153, 255, 0.08);
-            border: 1px solid rgba(85, 153, 255, 0.2);
-            border-radius: 12px;
-            max-height: 200px;
-            overflow-y: auto;
-            text-align: left;
-        }
-
-        .messages p {
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.07);
-            border-radius: 8px;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
-        }
+        label { display: block; font-size: .9rem; margin-bottom: 6px; }
 
         input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: 1px solid rgba(85, 153, 255, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
             border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font: inherit;
+            margin-bottom: 12px;
+        }
+
+        input:focus { outline: 2px solid var(--cyan); }
+
+        button { cursor: pointer; font: inherit; }
+        button:disabled { opacity: .6; cursor: wait; }
+
+        .submit { width: 100%; }
+        .messages { display: grid; gap: 9px; max-height: 280px; overflow-y: auto; }
+
+        .message {
+            overflow-wrap: anywhere;
+            padding: 11px 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: rgba(255,255,255,.035);
+            font-size: .92rem;
+        }
+
+        #formStatus { min-height: 24px; color: var(--cyan); font-size: .85rem; margin-top: 8px; }
+
+        footer {
+            margin-top: 40px;
+            padding: 24px 0;
             text-align: center;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            font-size: .85rem;
         }
 
-        input[type="text"]:focus {
-            border-color: #5599FF;
-            box-shadow: 0 0 12px rgba(85, 153, 255, 0.6);
-            outline: none;
+        @media (max-width: 760px) {
+            .hero, .message-layout { grid-template-columns: 1fr; }
+            .grid { grid-template-columns: 1fr; }
+            .hero { padding: 55px 0 35px; }
+            .nav-links { gap: 11px; font-size: .8rem; }
+            h1 { letter-spacing: -1px; }
         }
 
-        input[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background: #5599FF;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background: #417ad6;
-            box-shadow: 0 0 15px rgba(85, 153, 255, 0.6);
-            transform: translateY(-2px);
-        }
-
-        /* Responsive */
-        @media (max-width: 800px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .profile-photo {
-                margin-right: 0;
-                margin-bottom: 20px;
-                flex: 0 0 auto;
-            }
+        @media (max-width: 420px) {
+            .nav-links a:nth-child(2) { display: none; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <!-- Profile photo -->
-        <div class="profile-photo">
-            <img src="1.png" alt="Prashant Photo">
+<div class="container">
+
+    <nav>
+        <a class="logo" href="#home">VENKEY<span>.HM</span></a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
         </div>
+    </nav>
 
-        <!-- Content -->
-        <div class="content">
-            <div class="header">
-                <h1>Prashant Gohil | DevOps Enthusiast</h1>
-                <p>Student | Aspiring Cloud & DevOps Engineer</p>
-            </div>
+    <main>
+        <section class="hero" id="home">
+            <div>
+                <span class="badge">MCA Student · Aspiring Software Engineer</span>
 
-            <div class="about">
-                <h2>About Me</h2>
-                <p>Hi, I'm <b>Prashant</b> 👋, a student and aspiring Cloud & DevOps engineer.</p>
-                <p style="margin-top:10px;">
-                    <b>Project:</b> I have deployed a 2-tier Flask application (Flask + MySQL) on AWS EC2 using Docker.  
-                    I used Docker Compose to manage both containers with volumes and a custom network.  
-                    The source code is hosted on GitHub, and Jenkins is integrated to set up a CI/CD pipeline for automated deployment.
+                <h1>Hello, I'm<br><span>Venkey HM.</span></h1>
+
+                <p class="intro">
+                    I am building my career in Java development, full-stack engineering
+                    and Cloud/DevOps. I enjoy developing applications, working with
+                    databases, and learning how to deploy software reliably using
+                    modern tools and automation.
                 </p>
+
+                <div class="buttons">
+                    <a class="btn btn-primary" href="#projects">Explore Projects ↓</a>
+                    <a class="btn" href="#contact">Let's Connect</a>
+                </div>
             </div>
 
-            <div class="messages">
-                {% for message in messages %}
-                    <p>{{ message[0] }}</p>
-                {% endfor %}
+            <div class="profile-card" id="about">
+                <div class="avatar">VH</div>
+                <h2>Venkey HM</h2>
+                <p>Java Developer | Full-Stack Development | Cloud & DevOps</p>
+
+                <div style="margin-top:18px">
+                    <div class="profile-line">
+                        <span>Education</span>
+                        <strong>MCA</strong>
+                    </div>
+                    <div class="profile-line">
+                        <span>Primary focus</span>
+                        <strong>Java & Spring Boot</strong>
+                    </div>
+                    <div class="profile-line">
+                        <span>Currently learning</span>
+                        <strong>AWS & CI/CD</strong>
+                    </div>
+                    <div class="profile-line">
+                        <span>Approach</span>
+                        <strong>Build and learn</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="section-heading">
+                <h2>Technical Skills</h2>
+                <p>Technologies I'm learning and using across my projects.</p>
             </div>
 
-            <form id="messageForm">
-                <input type="text" name="new_message" placeholder="Type your message..." required>
-                <input type="submit" value="Send">
-            </form>
-        </div>
-    </div>
+            <div class="grid">
+                <article class="card">
+                    <div class="icon">☕</div>
+                    <h3>Java Development</h3>
+                    <p>Developing backend applications and learning API design and application architecture.</p>
+                    <div class="tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">Spring Boot</span>
+                        <span class="tag">REST APIs</span>
+                        <span class="tag">Maven</span>
+                    </div>
+                </article>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#messageForm").on("submit", function(event) {
-                event.preventDefault();
-                let messageInput = $("input[name='new_message']");
-                let message = messageInput.val().trim();
+                <article class="card">
+                    <div class="icon">🌐</div>
+                    <h3>Full-Stack Development</h3>
+                    <p>Building web interfaces and connecting them to application services and databases.</p>
+                    <div class="tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">React</span>
+                        <span class="tag">MySQL</span>
+                    </div>
+                </article>
 
-                if (message === "") {
-                    alert("Message cannot be empty!");
-                    return;
-                }
+                <article class="card">
+                    <div class="icon">☁️</div>
+                    <h3>Cloud & DevOps</h3>
+                    <p>Practising containerization, Linux administration, cloud deployment and pipeline automation.</p>
+                    <div class="tags">
+                        <span class="tag">AWS EC2</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">Jenkins</span>
+                        <span class="tag">Linux</span>
+                        <span class="tag">Git</span>
+                    </div>
+                </article>
+            </div>
+        </section>
 
-                $.ajax({
-                    url: "/submit",
-                    type: "POST",
-                    data: { new_message: message },
-                    success: function(response) {
-                        if (response && response.message) {
-                            $(".messages").append("<p>" + response.message + "</p>");
-                            messageInput.val("");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX Error:", status, error);
-                    }
-                });
+        <section id="projects">
+            <div class="section-heading">
+                <h2>Featured Projects</h2>
+                <p>Practical projects demonstrating development and deployment skills.</p>
+            </div>
+
+            <article class="card project-card">
+                <div class="icon">🚀</div>
+                <h3>Two-Tier Flask Application with CI/CD</h3>
+                <p>
+                    A Flask and MySQL application containerized using Docker Compose
+                    and hosted on AWS EC2. A Jenkins pipeline checks out code from
+                    GitHub, builds the Docker image, deploys the application and
+                    verifies its health endpoint.
+                </p>
+                <div class="tags">
+                    <span class="tag">AWS EC2</span>
+                    <span class="tag">Docker Compose</span>
+                    <span class="tag">Jenkins</span>
+                    <span class="tag">Flask</span>
+                    <span class="tag">MySQL</span>
+                </div>
+            </article>
+
+            <article class="card project-card">
+                <div class="icon">🧾</div>
+                <h3>Billing & POS Application</h3>
+                <p>
+                    A full-stack billing application project using a Spring Boot
+                    backend, React frontend and MySQL database for managing billing
+                    workflows and application data.
+                </p>
+                <div class="tags">
+                    <span class="tag">Java</span>
+                    <span class="tag">Spring Boot</span>
+                    <span class="tag">React</span>
+                    <span class="tag">MySQL</span>
+                </div>
+            </article>
+
+            <article class="card project-card">
+                <div class="icon">🤖</div>
+                <h3>AI Job Assistant</h3>
+                <p>
+                    An AI-focused project exploring how technology can assist users
+                    with job discovery and the job-search workflow.
+                </p>
+                <div class="tags">
+                    <span class="tag">AI Application</span>
+                    <span class="tag">Web Development</span>
+                </div>
+            </article>
+        </section>
+
+        <section id="contact">
+            <div class="section-heading">
+                <h2>Let's Connect</h2>
+                <p>Have a question or an idea? Send me a message.</p>
+            </div>
+
+            <div class="message-layout">
+                <div class="message-panel">
+                    <h3>Get in touch</h3>
+                    <p>
+                        I'm interested in software development, Java backend roles,
+                        full-stack projects and learning cloud technologies.
+                    </p>
+
+                    <form id="messageForm">
+                        <label for="newMessage">Your message</label>
+                        <input
+                            id="newMessage"
+                            type="text"
+                            name="new_message"
+                            maxlength="500"
+                            placeholder="Write a message..."
+                            required
+                        >
+                        <button class="btn btn-primary submit" type="submit">
+                            Send Message →
+                        </button>
+                        <p id="formStatus" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+
+                <div class="message-panel">
+                    <h3>Visitor Messages</h3>
+                    <p>Messages loaded from the Flask application and MySQL database.</p>
+
+                    <div class="messages" id="messagesList">
+                        {% for message in messages %}
+                            <div class="message">{{ message }}</div>
+                        {% else %}
+                            <p class="empty-message" style="color:var(--muted)">
+                                No messages yet. Start the conversation!
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Venkey HM · Java Development · Full Stack · Cloud & DevOps</p>
+        <p>© 2026 Venkey HM. Built as a hands-on learning project.</p>
+    </footer>
+</div>
+
+<script>
+    const form = document.getElementById("messageForm");
+    const input = document.getElementById("newMessage");
+    const list = document.getElementById("messagesList");
+    const status = document.getElementById("formStatus");
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const message = input.value.trim();
+        if (!message) {
+            status.textContent = "Please enter a message.";
+            return;
+        }
+
+        const button = form.querySelector("button");
+        button.disabled = true;
+        status.textContent = "Sending...";
+
+        try {
+            const response = await fetch("/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({ new_message: message })
             });
-        });
-    </script>
+
+            const data = await response.json();
+
+            if (!response.ok || !data.message) {
+                throw new Error("Message submission failed.");
+            }
+
+            const empty = list.querySelector(".empty-message");
+            if (empty) empty.remove();
+
+            const item = document.createElement("div");
+            item.className = "message";
+            item.textContent = data.message;
+            list.appendChild(item);
+
+            input.value = "";
+            status.textContent = "Message sent successfully!";
+        } catch (error) {
+            status.textContent = "Could not send the message. Please try again.";
+            console.error(error);
+        } finally {
+            button.disabled = false;
+        }
+    });
+</script>
 </body>
 </html>
